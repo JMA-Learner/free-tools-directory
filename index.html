@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Tools Directory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f7f6f2; --surface: #ffffff; --border: #e8e6df; --border-hover: #d0cec6;
+    --text: #1a1918; --text-muted: #6b6860; --text-hint: #a8a6a0;
+    --green: #16a34a; --green-bg: #dcfce7; --amber: #d97706; --amber-bg: #fef3c7;
+    --radius: 12px; --radius-sm: 8px; --radius-pill: 999px;
+    --shadow-hover: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
+
+  header { background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
+  .header-inner { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; display: flex; align-items: center; gap: 2rem; height: 64px; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
+  .logo-mark { width: 34px; height: 34px; background: var(--text); border-radius: 9px; display: flex; align-items: center; justify-content: center; }
+  .logo-mark svg { width: 18px; height: 18px; stroke: white; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .logo-text { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; color: var(--text); }
+  nav { display: flex; gap: 2px; flex: 1; }
+  .nav-tab { font-size: 14px; font-weight: 500; padding: 0.5rem 1rem; border: none; background: none; cursor: pointer; color: var(--text-muted); border-radius: var(--radius-sm); transition: all 0.15s; }
+  .nav-tab:hover, .nav-tab.active { color: var(--text); background: var(--bg); }
+  .header-cta { margin-left: auto; font-size: 13px; font-weight: 500; padding: 0.45rem 1rem; border-radius: var(--radius-pill); background: var(--text); color: white; border: none; cursor: pointer; transition: opacity 0.15s; white-space: nowrap; }
+  .header-cta:hover { opacity: 0.85; }
+
+  .hero { background: var(--surface); border-bottom: 1px solid var(--border); padding: 3rem 1.5rem 2.5rem; }
+  .hero-inner { max-width: 1100px; margin: 0 auto; }
+  .hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; line-height: 1.15; letter-spacing: -1px; max-width: 600px; margin-bottom: 0.75rem; }
+  .hero p { font-size: 16px; color: var(--text-muted); margin-bottom: 2rem; }
+  .hero-stats { display: flex; gap: 2rem; flex-wrap: wrap; }
+  .stat-num { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; display: block; }
+  .stat-label { font-size: 12px; color: var(--text-hint); }
+
+  main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .page { display: none; } .page.active { display: block; }
+
+  .toolbar { display: flex; gap: 10px; margin-bottom: 1.25rem; flex-wrap: wrap; align-items: center; }
+  .search-wrap { position: relative; flex: 1; min-width: 200px; }
+  .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; stroke: var(--text-hint); fill: none; stroke-width: 2; stroke-linecap: round; }
+  .search-input { width: 100%; padding: 0.6rem 1rem 0.6rem 2.5rem; font-size: 14px; font-family: 'DM Sans', sans-serif; border: 1px solid var(--border); border-radius: var(--radius-pill); background: var(--surface); color: var(--text); outline: none; transition: border-color 0.15s; }
+  .search-input::placeholder { color: var(--text-hint); }
+  .search-input:focus { border-color: var(--border-hover); }
+  .free-toggle { font-size: 13px; font-weight: 500; padding: 0.55rem 1rem; border-radius: var(--radius-pill); border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .free-toggle.active { background: var(--green-bg); border-color: #86efac; color: var(--green); }
+
+  .cats { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .cat-btn { font-size: 12px; font-weight: 500; padding: 0.35rem 0.9rem; border-radius: var(--radius-pill); border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
+  .cat-btn:hover { border-color: var(--border-hover); color: var(--text); }
+  .cat-btn.active { background: var(--text); border-color: var(--text); color: white; }
+
+  .result-count { font-size: 13px; color: var(--text-hint); margin-bottom: 1rem; }
+  .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
+
+  .tool-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.1rem; text-decoration: none; display: flex; flex-direction: column; gap: 7px; animation: fadeIn 0.3s ease both; transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s; }
+  .tool-card:hover { border-color: var(--border-hover); box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .tool-emoji { width: 38px; height: 38px; border-radius: 9px; background: var(--bg); display: flex; align-items: center; justify-content: center; font-size: 19px; }
+  .tool-name { font-size: 14px; font-weight: 500; color: var(--text); }
+  .stars { display: flex; gap: 1px; }
+  .star { font-size: 11px; color: #fbbf24; } .star.empty { color: #e5e7eb; }
+  .tool-desc { font-size: 12px; color: var(--text-muted); line-height: 1.45; flex: 1; }
+  .tool-footer { display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-top: 2px; flex-wrap: wrap; }
+  .tag { font-size: 10px; padding: 2px 7px; border-radius: var(--radius-pill); background: var(--bg); color: var(--text-muted); border: 1px solid var(--border); }
+  .free-badge { font-size: 10px; font-weight: 500; padding: 2px 7px; border-radius: var(--radius-pill); background: var(--green-bg); color: var(--green); }
+  .tool-bestfor { font-size: 11px; color: var(--text-hint); }
+  .no-results { text-align: center; padding: 4rem 2rem; color: var(--text-hint); font-size: 15px; grid-column: 1/-1; }
+
+  .disc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 10px; }
+  .disc-count { font-size: 14px; color: var(--text-muted); }
+  .btn-primary { font-size: 13px; font-weight: 500; padding: 0.5rem 1.1rem; border-radius: var(--radius-pill); background: var(--text); color: white; border: none; cursor: pointer; transition: opacity 0.15s; }
+  .btn-primary:hover { opacity: 0.85; }
+  .disc-list { display: flex; flex-direction: column; gap: 10px; }
+  .disc-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.1rem 1.25rem; cursor: pointer; transition: border-color 0.15s; }
+  .disc-card:hover { border-color: var(--border-hover); }
+  .disc-top { display: flex; gap: 12px; align-items: flex-start; }
+  .avatar { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; flex-shrink: 0; }
+  .disc-content { flex: 1; }
+  .disc-title { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+  .disc-meta { font-size: 12px; color: var(--text-hint); margin-bottom: 6px; }
+  .disc-preview { font-size: 13px; color: var(--text-muted); line-height: 1.45; }
+  .disc-footer { display: flex; gap: 16px; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); }
+  .disc-stat { font-size: 12px; color: var(--text-muted); }
+
+  .new-header { margin-bottom: 1.25rem; font-size: 14px; color: var(--text-muted); }
+  .new-list { display: flex; flex-direction: column; gap: 10px; }
+  .new-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.1rem 1.25rem; display: flex; gap: 1rem; align-items: flex-start; }
+  .new-icon { width: 44px; height: 44px; border-radius: 10px; background: var(--bg); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+  .new-body { flex: 1; }
+  .new-title-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
+  .new-title { font-size: 15px; font-weight: 500; color: var(--text); }
+  .new-pill { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: var(--radius-pill); background: var(--amber-bg); color: var(--amber); }
+  .new-desc { font-size: 13px; color: var(--text-muted); line-height: 1.45; }
+  .new-date { font-size: 12px; color: var(--text-hint); margin-top: 5px; }
+
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; align-items: center; justify-content: center; padding: 1rem; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--surface); border-radius: var(--radius); padding: 2rem; width: 100%; max-width: 460px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+  .modal h2 { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 0.5rem; }
+  .modal > div > p { font-size: 13px; color: var(--text-muted); margin-bottom: 1.5rem; }
+  .field { margin-bottom: 1rem; }
+  .field label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 5px; }
+  .field input, .field textarea, .field select { width: 100%; padding: 0.6rem 0.9rem; font-size: 14px; font-family: 'DM Sans', sans-serif; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); outline: none; transition: border-color 0.15s; }
+  .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--border-hover); }
+  .field textarea { resize: vertical; min-height: 80px; }
+  .modal-footer { display: flex; gap: 8px; justify-content: flex-end; margin-top: 1.5rem; }
+  .btn-cancel { font-size: 13px; font-weight: 500; padding: 0.5rem 1rem; border-radius: var(--radius-pill); border: 1px solid var(--border); background: none; color: var(--text-muted); cursor: pointer; }
+  .btn-cancel:hover { background: var(--bg); }
+  .success-msg { display: none; text-align: center; padding: 1.5rem 0; }
+  .success-msg .check { font-size: 2rem; margin-bottom: 0.5rem; }
+  .success-msg h3 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 0.25rem; }
+  .success-msg p { font-size: 13px; color: var(--text-muted); }
+
+  footer { text-align: center; padding: 2rem 1.5rem; font-size: 13px; color: var(--text-hint); border-top: 1px solid var(--border); margin-top: 3rem; }
+
+  @media (max-width: 600px) {
+    .hero { padding: 2rem 1rem 1.5rem; } main { padding: 1.25rem 1rem; }
+    .header-inner { padding: 0 1rem; gap: 1rem; } .logo-text { display: none; }
+    .tools-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="logo" href="#">
+      <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+      <span class="logo-text">Free Tools Directory</span>
+    </a>
+    <nav>
+      <button class="nav-tab active" onclick="showPage('browse',this)">Browse Tools</button>
+      <button class="nav-tab" onclick="showPage('discussion',this)">Discussion</button>
+      <button class="nav-tab" onclick="showPage('whatsnew',this)">What's New</button>
+    </nav>
+    <button class="header-cta" onclick="openModal()">+ Submit a Tool</button>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1>The internet's best free tools, organized by category.</h1>
+    <p>No subscriptions. No credit card. Just free.</p>
+    <div class="hero-stats">
+      <div><span class="stat-num" id="total-count">29</span><span class="stat-label">tools listed</span></div>
+      <div><span class="stat-num" id="cat-count">10</span><span class="stat-label">categories</span></div>
+      <div><span class="stat-num">100%</span><span class="stat-label">free to use</span></div>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div id="page-browse" class="page active">
+    <div class="toolbar">
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input class="search-input" type="text" placeholder="Search tools..." oninput="filterTools(this.value)" />
+      </div>
+      <button class="free-toggle" onclick="toggleFree(this)">✓ 100% Free only</button>
+    </div>
+    <div class="cats" id="cats"></div>
+    <div class="result-count" id="result-count"></div>
+    <div class="tools-grid" id="tools-grid"></div>
+  </div>
+
+  <div id="page-discussion" class="page">
+    <div class="disc-header">
+      <span class="disc-count">Join the conversation about free tools</span>
+      <button class="btn-primary" onclick="openDiscModal()">+ New Thread</button>
+    </div>
+    <div class="disc-list" id="disc-list"></div>
+  </div>
+
+  <div id="page-whatsnew" class="page">
+    <div class="new-header">Latest additions and updates to the directory</div>
+    <div class="new-list" id="new-list"></div>
+  </div>
+</main>
+
+<footer>Built with ❤️ · Free Tools Directory · <a href="#" style="color:inherit" onclick="openModal()">Submit a tool</a></footer>
+
+<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <div id="modal-form">
+      <h2>Submit a Tool</h2>
+      <p>Know a great free tool? Add it to the directory.</p>
+      <div class="field"><label>Tool name *</label><input type="text" id="f-name" placeholder="e.g. Notion" /></div>
+      <div class="field"><label>Website URL *</label><input type="url" id="f-url" placeholder="https://..." /></div>
+      <div class="field"><label>Category *</label>
+        <select id="f-cat">
+          <option value="">Select category...</option>
+          <option>AI</option><option>AI (Image Generation)</option><option>AI (Productivity & Automation)</option>
+          <option>AI (Research & Study)</option><option>AI (Video & Presentation)</option>
+          <option>AI (Writing & Content)</option><option>Audio</option><option>Design</option>
+          <option>Developer</option><option>Email Marketing</option><option>Other</option>
+        </select>
+      </div>
+      <div class="field"><label>Short description *</label><textarea id="f-desc" placeholder="What does it do? (1–2 sentences)"></textarea></div>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn-primary" onclick="submitTool()">Submit Tool</button>
+      </div>
+    </div>
+    <div class="success-msg" id="modal-success">
+      <div class="check">🎉</div><h3>Thanks for the submission!</h3>
+      <p>We'll review it and add it to the directory soon.</p>
+      <button class="btn-primary" style="margin-top:1rem" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="disc-modal" onclick="closeDiscModalOutside(event)">
+  <div class="modal">
+    <div id="disc-modal-form">
+      <h2>Start a Discussion</h2>
+      <p>Ask a question or share a tip with the community.</p>
+      <div class="field"><label>Your name *</label><input type="text" id="d-name" placeholder="e.g. Alex" /></div>
+      <div class="field"><label>Thread title *</label><input type="text" id="d-title" placeholder="e.g. Best AI tools for solo founders?" /></div>
+      <div class="field"><label>Your message *</label><textarea id="d-msg" placeholder="Share your thoughts..."></textarea></div>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeDiscModal()">Cancel</button>
+        <button class="btn-primary" onclick="submitDisc()">Post Thread</button>
+      </div>
+    </div>
+    <div class="success-msg" id="disc-modal-success">
+      <div class="check">✅</div><h3>Thread posted!</h3>
+      <p>Your thread is now live in the discussion.</p>
+      <button class="btn-primary" style="margin-top:1rem" onclick="closeDiscModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const tools = [
+  { name:"ChatGPT", desc:"AI chatbot for writing, coding, and research", bestFor:"Everyone", cat:"AI", stars:5, emoji:"🤖", free:true, url:"https://chat.openai.com" },
+  { name:"Claude", desc:"Thoughtful AI assistant for writing, research, and coding", bestFor:"Writing, research, coding", cat:"AI", stars:5, emoji:"💬", free:true, url:"https://claude.ai" },
+  { name:"Perplexity AI", desc:"AI-powered search engine with cited answers", bestFor:"Research, students", cat:"AI", stars:5, emoji:"🔍", free:true, url:"https://perplexity.ai" },
+  { name:"Gamma", desc:"AI presentation builder — no design skills needed", bestFor:"Students, professionals", cat:"AI", stars:4, emoji:"🎨", free:true, url:"https://gamma.app" },
+  { name:"Microsoft Designer", desc:"AI-powered design tool for visuals and social posts", bestFor:"Creators, marketers", cat:"AI (Image Generation)", stars:4, emoji:"🖌️", free:true, url:"https://designer.microsoft.com" },
+  { name:"Adobe Firefly", desc:"AI image generation built into Adobe's creative suite", bestFor:"Designers, creators", cat:"AI (Image Generation)", stars:4, emoji:"🔥", free:true, url:"https://firefly.adobe.com" },
+  { name:"Ideogram", desc:"AI image generator with strong text-in-image capability", bestFor:"Designers, marketers", cat:"AI (Image Generation)", stars:4, emoji:"🖼️", free:true, url:"https://ideogram.ai" },
+  { name:"Google AI Studio", desc:"Google's AI playground for developers and creators", bestFor:"Creators, developers", cat:"AI (Image Generation)", stars:4, emoji:"🧠", free:true, url:"https://aistudio.google.com" },
+  { name:"Qwen Image Edit", desc:"AI-powered image editing and generation tool", bestFor:"Small businesses, creators", cat:"AI (Image Generation)", stars:4, emoji:"✨", free:true, url:"https://chat.qwen.ai" },
+  { name:"Merlin AI", desc:"AI assistant that works inside your browser on any website", bestFor:"Everyone", cat:"AI (Productivity & Automation)", stars:4, emoji:"🧙", free:true, url:"https://merlin.foyer.work" },
+  { name:"Otter.ai", desc:"AI meeting transcription and note-taking tool", bestFor:"Students, professionals", cat:"AI (Productivity & Automation)", stars:4, emoji:"🦦", free:true, url:"https://otter.ai" },
+  { name:"Consensus", desc:"AI-powered academic search using real research papers", bestFor:"Students, researchers", cat:"AI (Research & Study)", stars:5, emoji:"📚", free:true, url:"https://consensus.app" },
+  { name:"Explainpaper", desc:"Upload a paper and get AI explanations of confusing parts", bestFor:"Students, researchers", cat:"AI (Research & Study)", stars:4, emoji:"📄", free:true, url:"https://explainpaper.com" },
+  { name:"Elicit", desc:"AI research assistant that finds and summarizes papers", bestFor:"Researchers, students", cat:"AI (Research & Study)", stars:4, emoji:"🔬", free:true, url:"https://elicit.com" },
+  { name:"Synthesia Free", desc:"Create AI avatar videos from text — no camera needed", bestFor:"Educators, marketers", cat:"AI (Video & Presentation)", stars:4, emoji:"🎬", free:true, url:"https://synthesia.io" },
+  { name:"Runway ML", desc:"AI video generation and editing for creators", bestFor:"Video creators", cat:"AI (Video & Presentation)", stars:4, emoji:"🎥", free:true, url:"https://runwayml.com" },
+  { name:"Tome", desc:"AI-powered storytelling and presentation builder", bestFor:"Students, professionals", cat:"AI (Video & Presentation)", stars:4, emoji:"📖", free:true, url:"https://tome.app" },
+  { name:"Notion AI", desc:"AI writing assistant built directly into Notion workspace", bestFor:"Writers, students", cat:"AI (Writing & Content)", stars:4, emoji:"📝", free:true, url:"https://notion.so/product/ai" },
+  { name:"Quillbot", desc:"AI paraphrasing and writing improvement tool", bestFor:"Students, writers", cat:"AI (Writing & Content)", stars:4, emoji:"✍️", free:true, url:"https://quillbot.com" },
+  { name:"Copy.ai", desc:"AI copywriting tool for marketing and business content", bestFor:"Marketers, small businesses", cat:"AI (Writing & Content)", stars:4, emoji:"📢", free:true, url:"https://copy.ai" },
+  { name:"Audacity", desc:"Free, open-source audio editor and recorder for all levels", bestFor:"Podcasters, musicians", cat:"Audio", stars:5, emoji:"🎙️", free:true, url:"https://audacityteam.org" },
+  { name:"Canva", desc:"Drag-and-drop graphic design platform for everyone", bestFor:"Students, creators, anyone", cat:"Design", stars:5, emoji:"🖍️", free:true, url:"https://canva.com" },
+  { name:"Figma", desc:"Collaborative UI/UX design tool with a generous free tier", bestFor:"Designers, students", cat:"Design", stars:5, emoji:"🎯", free:true, url:"https://figma.com" },
+  { name:"Adobe Express", desc:"Quick design tool for social media, flyers, and graphics", bestFor:"Beginners, social media", cat:"Design", stars:4, emoji:"⚡", free:true, url:"https://express.adobe.com" },
+  { name:"Remove.bg", desc:"Instantly remove image backgrounds with AI — one click", bestFor:"Everyone", cat:"Design", stars:5, emoji:"🪄", free:true, url:"https://remove.bg" },
+  { name:"Unsplash", desc:"Thousands of free high-quality photos for any project", bestFor:"Designers, bloggers", cat:"Design", stars:5, emoji:"📷", free:true, url:"https://unsplash.com" },
+  { name:"VS Code", desc:"Free, powerful code editor by Microsoft with rich extensions", bestFor:"Developers, students", cat:"Developer", stars:5, emoji:"💻", free:true, url:"https://code.visualstudio.com" },
+  { name:"GitHub", desc:"Code hosting, version control, and collaboration platform", bestFor:"Developers, students", cat:"Developer", stars:5, emoji:"🐙", free:true, url:"https://github.com" },
+  { name:"Mailchimp", desc:"Email marketing with free plan up to 500 contacts", bestFor:"Small businesses, creators", cat:"Email Marketing", stars:4, emoji:"📧", free:true, url:"https://mailchimp.com" },
+  { name:"Beehiiv", desc:"Newsletter platform built for creators and growth", bestFor:"Newsletter creators", cat:"Email Marketing", stars:4, emoji:"🐝", free:true, url:"https://beehiiv.com" },
+];
+
+const discussions = [
+  { initials:"AM", color:"#dbeafe", textColor:"#1d4ed8", name:"Alex M.", time:"2h ago", title:"Best AI tools for solo founders in 2025?", preview:"I've been testing a bunch of AI tools — curious what the community uses day-to-day. Especially for writing and code generation.", replies:18, likes:42 },
+  { initials:"PR", color:"#fce7f3", textColor:"#be185d", name:"Priya R.", time:"5h ago", title:"Figma vs Canva for a non-technical person?", preview:"I need to make social media graphics but have zero design background. Which one has the gentler learning curve?", replies:31, likes:67 },
+  { initials:"JT", color:"#dcfce7", textColor:"#15803d", name:"Jason T.", time:"1d ago", title:"Hidden gems — tools nobody talks about", preview:"I recently discovered Remove.bg and Explainpaper — both changed my workflow. What under-the-radar free tools do you swear by?", replies:47, likes:103 },
+  { initials:"SK", color:"#fef3c7", textColor:"#b45309", name:"Sara K.", time:"2d ago", title:"Which free AI research tool is most accurate?", preview:"Been comparing Consensus, Elicit, and Perplexity for academic research. Anyone done a proper side-by-side comparison?", replies:24, likes:55 },
+];
+
+const newItems = [
+  { emoji:"🎨", name:"Adobe Express — 50 new free templates", date:"Apr 18, 2026", desc:"Adobe expanded the free tier with 50+ new templates and 5GB storage for all users.", isNew:true },
+  { emoji:"🐝", name:"Beehiiv — free plan expanded", date:"Apr 15, 2026", desc:"Beehiiv raised the free subscriber limit and added new analytics tools at no cost.", isNew:true },
+  { emoji:"🔬", name:"Elicit — new paper summarization", date:"Apr 10, 2026", desc:"Elicit launched one-click paper summarization across 200M+ research papers.", isNew:false },
+  { emoji:"🧙", name:"Merlin AI — browser extension update", date:"Apr 5, 2026", desc:"Merlin added support for Claude and Gemini models in its free browser extension.", isNew:false },
+  { emoji:"🪄", name:"Remove.bg — HD downloads now free", date:"Mar 28, 2026", desc:"Remove.bg made high-resolution background removal free for all users — no more watermarks.", isNew:false },
+];
+
+let currentCat = "All", freeOnly = false, searchQ = "";
+const allCats = ["All", ...new Set(tools.map(t => t.cat))];
+
+function buildCats() {
+  document.getElementById("cats").innerHTML = allCats.map(c =>
+    `<button class="cat-btn${c==='All'?' active':''}" onclick="setCat('${c.replace(/'/g,"\\'")}',this)">${c}</button>`
+  ).join("");
+}
+
+function renderTools() {
+  const filtered = tools.filter(t => {
+    const matchCat = currentCat === "All" || t.cat === currentCat;
+    const matchFree = !freeOnly || t.free;
+    const matchQ = !searchQ || [t.name, t.desc, t.cat, t.bestFor].some(s => s.toLowerCase().includes(searchQ));
+    return matchCat && matchFree && matchQ;
+  });
+
+  document.getElementById("result-count").textContent =
+    filtered.length === tools.length ? `Showing all ${tools.length} tools` : `Showing ${filtered.length} of ${tools.length} tools`;
+
+  document.getElementById("tools-grid").innerHTML = filtered.length === 0
+    ? `<div class="no-results">No tools found. Try a different search or category.</div>`
+    : filtered.map((t, i) => `
+      <a class="tool-card" href="${t.url}" target="_blank" rel="noopener" style="animation-delay:${i*0.03}s">
+        <div class="tool-emoji">${t.emoji}</div>
+        <div class="tool-name">${t.name}</div>
+        <div class="stars">${[...Array(5)].map((_,j)=>`<span class="star${j>=t.stars?' empty':''}">★</span>`).join("")}</div>
+        <div class="tool-desc">${t.desc}</div>
+        <div class="tool-footer">
+          <span class="tag">${t.cat}</span>
+          ${t.free?'<span class="free-badge">100% Free</span>':""}
+        </div>
+        <div class="tool-bestfor">Best for: ${t.bestFor}</div>
+      </a>`).join("");
+
+  document.getElementById("total-count").textContent = tools.length;
+  document.getElementById("cat-count").textContent = allCats.length - 1;
+}
+
+function renderDiscussions() {
+  document.getElementById("disc-list").innerHTML = discussions.map(d => `
+    <div class="disc-card">
+      <div class="disc-top">
+        <div class="avatar" style="background:${d.color};color:${d.textColor}">${d.initials}</div>
+        <div class="disc-content">
+          <div class="disc-title">${d.title}</div>
+          <div class="disc-meta">${d.name} · ${d.time}</div>
+          <div class="disc-preview">${d.preview}</div>
+        </div>
+      </div>
+      <div class="disc-footer">
+        <span class="disc-stat">💬 ${d.replies} replies</span>
+        <span class="disc-stat">♥ ${d.likes} likes</span>
+      </div>
+    </div>`).join("");
+}
+
+function renderNew() {
+  document.getElementById("new-list").innerHTML = newItems.map(n => `
+    <div class="new-card">
+      <div class="new-icon">${n.emoji}</div>
+      <div class="new-body">
+        <div class="new-title-row">
+          <span class="new-title">${n.name}</span>
+          ${n.isNew?'<span class="new-pill">New</span>':""}
+        </div>
+        <div class="new-desc">${n.desc}</div>
+        <div class="new-date">${n.date}</div>
+      </div>
+    </div>`).join("");
+}
+
+function showPage(id, btn) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".nav-tab").forEach(t => t.classList.remove("active"));
+  document.getElementById("page-"+id).classList.add("active");
+  btn.classList.add("active");
+}
+function setCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  renderTools();
+}
+function toggleFree(btn) { freeOnly = !freeOnly; btn.classList.toggle("active", freeOnly); renderTools(); }
+function filterTools(q) { searchQ = q.toLowerCase().trim(); renderTools(); }
+
+function openModal() { document.getElementById("modal").classList.add("open"); document.getElementById("modal-form").style.display="block"; document.getElementById("modal-success").style.display="none"; }
+function closeModal() { document.getElementById("modal").classList.remove("open"); }
+function closeModalOutside(e) { if(e.target===document.getElementById("modal")) closeModal(); }
+function submitTool() {
+  if(!document.getElementById("f-name").value||!document.getElementById("f-url").value||!document.getElementById("f-cat").value||!document.getElementById("f-desc").value){alert("Please fill in all fields.");return;}
+  document.getElementById("modal-form").style.display="none";
+  document.getElementById("modal-success").style.display="block";
+}
+function openDiscModal() { document.getElementById("disc-modal").classList.add("open"); document.getElementById("disc-modal-form").style.display="block"; document.getElementById("disc-modal-success").style.display="none"; }
+function closeDiscModal() { document.getElementById("disc-modal").classList.remove("open"); }
+function closeDiscModalOutside(e) { if(e.target===document.getElementById("disc-modal")) closeDiscModal(); }
+function submitDisc() {
+  const name=document.getElementById("d-name").value.trim(), title=document.getElementById("d-title").value.trim(), msg=document.getElementById("d-msg").value.trim();
+  if(!name||!title||!msg){alert("Please fill in all fields.");return;}
+  discussions.unshift({initials:name.split(" ").map(w=>w[0]).join("").toUpperCase().slice(0,2),color:"#f3e8ff",textColor:"#7e22ce",name,time:"just now",title,preview:msg,replies:0,likes:0});
+  renderDiscussions();
+  document.getElementById("disc-modal-form").style.display="none";
+  document.getElementById("disc-modal-success").style.display="block";
+}
+
+buildCats(); renderTools(); renderDiscussions(); renderNew();
+</script>
+</body>
+</html>
