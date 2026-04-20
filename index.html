@@ -6,7 +6,7 @@
 <title>Free Tools Directory</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -16,26 +16,63 @@
     --radius: 12px; --radius-sm: 8px; --radius-pill: 999px;
     --shadow-hover: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
   }
-  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
 
   header { background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
   .header-inner { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; display: flex; align-items: center; gap: 2rem; height: 64px; }
   .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
   .logo-mark { width: 34px; height: 34px; background: var(--text); border-radius: 9px; display: flex; align-items: center; justify-content: center; }
   .logo-mark svg { width: 18px; height: 18px; stroke: white; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-  .logo-text { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; color: var(--text); }
+  .logo-text { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 15px; color: var(--text); }
   nav { display: flex; gap: 2px; flex: 1; }
   .nav-tab { font-size: 14px; font-weight: 500; padding: 0.5rem 1rem; border: none; background: none; cursor: pointer; color: var(--text-muted); border-radius: var(--radius-sm); transition: all 0.15s; }
   .nav-tab:hover, .nav-tab.active { color: var(--text); background: var(--bg); }
   .header-cta { margin-left: auto; font-size: 13px; font-weight: 500; padding: 0.45rem 1rem; border-radius: var(--radius-pill); background: var(--text); color: white; border: none; cursor: pointer; transition: opacity 0.15s; white-space: nowrap; }
   .header-cta:hover { opacity: 0.85; }
 
-  .hero { background: var(--surface); border-bottom: 1px solid var(--border); padding: 3rem 1.5rem 2.5rem; }
-  .hero-inner { max-width: 1100px; margin: 0 auto; }
-  .hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; line-height: 1.15; letter-spacing: -1px; max-width: 600px; margin-bottom: 0.75rem; }
-  .hero p { font-size: 16px; color: var(--text-muted); margin-bottom: 2rem; }
-  .hero-stats { display: flex; gap: 2rem; flex-wrap: wrap; }
-  .stat-num { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; display: block; }
+ .hero {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 4rem 1.5rem 3rem;
+}
+
+.hero-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hero h1 {
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(2.6rem, 6vw, 5rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  max-width: 900px;
+  margin: 0 auto 1rem;
+}
+
+.hero p {
+  font-size: 18px;
+  color: var(--text-muted);
+  margin: 0 auto 2rem;
+  max-width: 760px;
+  text-align: center;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.stat-num {
+  font-family: 'Manrope', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  display: block;
+}
   .stat-label { font-size: 12px; color: var(--text-hint); }
 
   main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
@@ -102,7 +139,7 @@
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; align-items: center; justify-content: center; padding: 1rem; }
   .modal-overlay.open { display: flex; }
   .modal { background: var(--surface); border-radius: var(--radius); padding: 2rem; width: 100%; max-width: 460px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
-  .modal h2 { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 0.5rem; }
+  .modal h2 { font-family: 'Manrope', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 0.5rem; }
   .modal > div > p { font-size: 13px; color: var(--text-muted); margin-bottom: 1.5rem; }
   .field { margin-bottom: 1rem; }
   .field label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 5px; }
@@ -114,9 +151,27 @@
   .btn-cancel:hover { background: var(--bg); }
   .success-msg { display: none; text-align: center; padding: 1.5rem 0; }
   .success-msg .check { font-size: 2rem; margin-bottom: 0.5rem; }
-  .success-msg h3 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 0.25rem; }
+  .success-msg h3 { font-family: 'Manrope', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 0.25rem; }
   .success-msg p { font-size: 13px; color: var(--text-muted); }
+#typed-subhead {
+  font-size: 18px;
+  color: var(--text-muted);
+  margin: 0 auto 2rem;
+  max-width: 760px;
+  text-align: center;
+  min-height: 1.6em;
+}
 
+#typed-subhead.typing::after {
+  content: "|";
+  display: inline-block;
+  margin-left: 3px;
+  animation: blink 0.8s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
   footer { text-align: center; padding: 2rem 1.5rem; font-size: 13px; color: var(--text-hint); border-top: 1px solid var(--border); margin-top: 3rem; }
 
   @media (max-width: 600px) {
@@ -146,7 +201,9 @@
 <div class="hero">
   <div class="hero-inner">
     <h1>The internet's best free tools, organized by category.</h1>
-    <p>No subscriptions. No credit card. Just free.</p>
+   <p>Discover genuinely useful free tools for work, study, research, and creativity — all in one place.</p>
+   <p>Skip the paywalls. Find powerful free tools that actually earn a place in your workflow.</p>
+   <p id="typed-subhead"></p>
     <div class="hero-stats">
       <div><span class="stat-num" id="total-count">29</span><span class="stat-label">tools listed</span></div>
       <div><span class="stat-num" id="cat-count">10</span><span class="stat-label">categories</span></div>
@@ -410,7 +467,34 @@ function submitDisc() {
   document.getElementById("disc-modal-success").style.display="block";
 }
 
-buildCats(); renderTools(); renderDiscussions(); renderNew();
+const subheadText = "Skip the paywalls. Find powerful free tools that actually earn a place in your workflow.";
+
+function typeSubhead(text, speed = 35) {
+  const el = document.getElementById("typed-subhead");
+  if (!el) return;
+
+  el.textContent = "";
+  el.classList.add("typing");
+
+  let i = 0;
+  function type() {
+    if (i < text.length) {
+      el.textContent += text.charAt(i);
+      i++;
+      setTimeout(type, speed);
+    } else {
+      el.classList.remove("typing");
+    }
+  }
+
+  type();
+}
+
+buildCats();
+renderTools();
+renderDiscussions();
+renderNew();
+typeSubhead(subheadText);
 </script>
 </body>
 </html>
